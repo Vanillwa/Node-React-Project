@@ -1,3 +1,4 @@
+import PostList from "../components/PostList"
 import PostWrite from "../components/PostWrite"
 
 function Posts(){
@@ -5,6 +6,7 @@ function Posts(){
     <>
       <h2>Posts</h2>
       <PostWrite></PostWrite>
+      <PostList></PostList>
     </>
   )
 }

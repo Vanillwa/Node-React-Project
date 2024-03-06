@@ -28,28 +28,26 @@ function PostWrite() {
   }
 
   return (
-    <>
-      <section className='sec write-sec'>
-        <div className='container-lg'>
-          <h2 className='title'>Create Post!</h2>
-          <form className='row' onSubmit={(e) => postSubmit(e)}>
-            <div className='wrapper'>
-              <label htmlFor='new-post-title'>Title</label>
-              <input type='text' name='title' id='new-post-title' onChange={(e) => setTitle(e.target.value)} required></input>
-            </div>
-            <div className='wrapper'>
-              <label htmlFor='new-post-content'>Content</label>
-              <textarea name='content' id='new-post-content' onChange={(e) => setContent(e.target.value)} required></textarea>
-            </div>
-            <div className='btn-wrapper'>
-              <button type='submit' className='btn btn-secondary'>
-                Create
-              </button>
-            </div>
-          </form>
-        </div>
-      </section>
-    </>
+    <section className='sec write-sec'>
+      <div className='container-lg'>
+        <h2 className='title'>Create Post!</h2>
+        <form className='row' onSubmit={(e) => postSubmit(e)}>
+          <div className='wrapper'>
+            <label htmlFor='new-post-title'>Title</label>
+            <input type='text' name='title' id='new-post-title' onChange={(e) => setTitle(e.target.value)} required></input>
+          </div>
+          <div className='wrapper'>
+            <label htmlFor='new-post-content'>Content</label>
+            <textarea name='content' id='new-post-content' onChange={(e) => setContent(e.target.value)} required></textarea>
+          </div>
+          <div className='btn-wrapper'>
+            <button type='submit' className='btn btn-secondary'>
+              Create
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
   );
 }
 
