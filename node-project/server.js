@@ -29,7 +29,7 @@ passport.use(
       passwordField: "pwd",
     },
     async (email, pwd, done) => {
-      let result = await models.Users.findOne({
+      let result = await models.User.findOne({
         where: { email: email },
       });
       if (!result) {
@@ -84,7 +84,33 @@ app.post("/login", (req, res) => {
   })(req, res);
 });
 
-// 게시글 작성
+// posts 조회
+app.get("/posts", async (req, res) => {
+  // let page = req.query.page ? req.query.page : 1;
+  // let limit = 5;
+  // let totalPost = await models.Posts.count();
+  // let totalPage = Math.ceil(totalPost / limit);
+  // if (page > totalPage) {
+  //   page = totalPage;
+  // }
+
+  // let offset = totalPage == 0 ? 0 : (page - 1) * limit; // row가 없을경우 offset을 0으로 설정 (오류 방지)
+
+  const data = await models.Post.findAll({
+    include: [
+      {
+        model: models.User,
+        attributes: ["nickname"],
+      },
+    ],
+    order: [["id", "DESC"]],
+    // offset,
+    // limit,
+  });
+  res.send(data);
+});
+
+// post 작성
 app.post("/posts", async (req, res) => {
   console.log(req.body)
   await models.Post
@@ -97,6 +123,6 @@ app.post("/posts", async (req, res) => {
     });
 });
 
-app.get("*", (req, res)=>{
-  res.sendFile('index.html');
-})
+// app.get("*", (req, res)=>{
+//   res.sendFile('index.html');
+// })

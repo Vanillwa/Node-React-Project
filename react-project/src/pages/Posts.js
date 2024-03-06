@@ -1,14 +1,19 @@
-import PostList from "../components/PostList"
-import PostWrite from "../components/PostWrite"
+import { useState } from "react";
+import PostList from "../components/PostList";
+import PostWrite from "../components/PostWrite";
 
-function Posts(){
-  return(
+function Posts() {
+  const [refresh, setRefresh] = useState(false);
+  const handlePostSubmit = () => {
+    // 새로운 글이 작성되면 refresh 상태를 토글하여 PostList를 다시 렌더링하도록 함
+    setRefresh(!refresh);
+  };
+  return (
     <>
-      <h2>Posts</h2>
-      <PostWrite></PostWrite>
-      <PostList></PostList>
+      <PostWrite onPostSubmit={handlePostSubmit}></PostWrite>
+      <PostList refresh={refresh}></PostList>
     </>
-  )
+  );
 }
 
-export default Posts
+export default Posts;

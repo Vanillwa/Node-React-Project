@@ -1,46 +1,46 @@
-import { create } from "zustand";
+import { postPost } from "../api";
+import { useState } from "react";
 
-const newPostStore = create((set) => ({
-  title: "",
-  content: "",
-  setTitle: (newTitle) => set({ title: newTitle }),
-  setContent: (newContent) => set({ content: newContent }),
-}));
+function PostWrite(props) {
+  const {onPostSubmit } = props
+  const [newPost, setNewPost] = useState({
+    title: "",
+    content: "",
+    writer: 1,
+  });
 
-function PostWrite() {
-  const title = newPostStore((state) => state.title);
-  const content = newPostStore((state) => state.content);
-  const setTitle = newPostStore((state) => state.setTitle);
-  const setContent = newPostStore((state) => state.setContent);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNewPost((state) => ({ ...state, [name]: value }));
+  };
 
-  function postSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log(title, content)
-    const body = JSON.stringify({ title, content });
-    console.log(body);
-    fetch("http://localhost:8081/posts", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body,
-    });
-  }
+    const body = JSON.stringify(newPost);
+    await postPost(body);
+    setNewPost({ title: "", content: "", writer: 1 });
+    onPostSubmit();
+    e.target.reset();
+  };
 
   return (
     <section className='sec write-sec'>
-      <div className='container-lg'>
-        <h2 className='title'>Create Post!</h2>
-        <form className='row' onSubmit={(e) => postSubmit(e)}>
-          <div className='wrapper'>
-            <label htmlFor='new-post-title'>Title</label>
-            <input type='text' name='title' id='new-post-title' onChange={(e) => setTitle(e.target.value)} required></input>
+      <div className='container'>
+        <h2 className='title text-center pb-4'>Create Post!</h2>
+        <form className='form row row-cols-1 gap-4' onSubmit={handleSubmit}>
+          <div className='wrapper col d-flex justify-content-center'>
+            <label htmlFor='new-post-title' className='col-2'>
+              Title
+            </label>
+            <input type='text' name='title' id='new-post-title' className='col-8' onChange={handleChange} required></input>
           </div>
-          <div className='wrapper'>
-            <label htmlFor='new-post-content'>Content</label>
-            <textarea name='content' id='new-post-content' onChange={(e) => setContent(e.target.value)} required></textarea>
+          <div className='wrapper col d-flex justify-content-center'>
+            <label htmlFor='new-post-content' className='col-2'>
+              Content
+            </label>
+            <textarea name='content' id='new-post-content' className='col-8' onChange={handleChange} required></textarea>
           </div>
-          <div className='btn-wrapper'>
+          <div className='btn-wrapper col text-center'>
             <button type='submit' className='btn btn-secondary'>
               Create
             </button>
