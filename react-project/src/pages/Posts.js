@@ -1,18 +1,53 @@
-import { useState } from "react";
-import PostList from "../components/PostList";
-import PostWrite from "../components/PostWrite";
-
+import { useEffect } from "react";
+import { getPosts } from "../api/api";
+import { usePostStore } from "../stores/postStore";
+import { Table } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import Post from "../components/Post";
 function Posts() {
-  const [refresh, setRefresh] = useState(false);
-  const handlePostSubmit = () => {
-    // 새로운 글이 작성되면 refresh 상태를 토글하여 PostList를 다시 렌더링하도록 함
-    setRefresh(!refresh);
-  };
+  const { posts, setPosts } = usePostStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handlePostsLoad = async () => {
+      const data = await getPosts();
+      setPosts(data);
+    };
+    handlePostsLoad();
+  }, [setPosts]);
+
   return (
-    <>
-      <PostWrite onPostSubmit={handlePostSubmit}></PostWrite>
-      <PostList refresh={refresh}></PostList>
-    </>
+    <section className='sec list-sec'>
+      <div className='container'>
+        <h2 className='title text-center'>글 목록</h2>
+        <div className='bar d-flex justify-content-end'>
+          <div className='filter'></div>
+          <button
+            type='button'
+            className='writeBtn'
+            onClick={() => {
+              navigate("/posts/write");
+            }}>
+            글쓰기
+          </button>
+        </div>
+        <Table hover variant='dark'>
+          <thead className=''>
+            <tr className=''>
+              <th className='col-1 text-center'>글번호</th>
+              <th className='col-6 text-center'>제목</th>
+              <th className='col-3 text-center'>작성자</th>
+              <th className='col-2 text-center'>작성일</th>
+            </tr>
+          </thead>
+          <tbody>
+            {posts.map((post, i) => {
+              return <Post key={post.id} post={post} i={i}></Post>;
+            })}
+          </tbody>
+        </Table>
+      </div>
+    </section>
   );
 }
 

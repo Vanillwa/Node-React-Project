@@ -7,11 +7,11 @@ function Header() {
   return (
     <Navbar bg='dark' data-bs-theme='dark'>
       <Container>
-        <Navbar.Brand as={Link} to='/'>LOGO</Navbar.Brand>
+        <Navbar.Brand as={Link} to='/'>로고</Navbar.Brand>
         <Nav className='me-auto'>
-          <Nav.Link as={Link} to='/'>Home</Nav.Link>
-          <Nav.Link as={Link} to='/posts'>Posts</Nav.Link>
-          <Nav.Link as={Link} to='#'>Login</Nav.Link>
+          <Nav.Link as={Link} to='/'>메인</Nav.Link>
+          <Nav.Link as={Link} to='/posts'>게시판</Nav.Link>
+          <Nav.Link as={Link} to='#'>로그인</Nav.Link>
         </Nav>
       </Container>
     </Navbar>
