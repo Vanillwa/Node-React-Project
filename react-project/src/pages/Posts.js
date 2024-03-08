@@ -4,17 +4,19 @@ import { usePostStore } from "../stores/postStore";
 import { Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Post from "../components/Post";
-function Posts() {
-  const { posts, setPosts } = usePostStore();
-  const navigate = useNavigate();
+import { useQuery } from "react-query";
+import Pagination from "../components/Pagination";
 
-  useEffect(() => {
-    const handlePostsLoad = async () => {
-      const data = await getPosts();
-      setPosts(data);
-    };
-    handlePostsLoad();
-  }, [setPosts]);
+function Posts() {
+  const navigate = useNavigate();
+  const { page, setPage, setOrder, totalPage } = usePostStore();
+  const handlepagechange = (newPage) => {
+    setPage(newPage);
+  };
+
+  const handleOrderChange = (newOrder) => {
+    setOrder(newOrder);
+  };
 
   return (
     <section className='sec list-sec'>
@@ -35,19 +37,59 @@ function Posts() {
           <thead className=''>
             <tr className=''>
               <th className='col-1 text-center'>글번호</th>
-              <th className='col-6 text-center'>제목</th>
-              <th className='col-3 text-center'>작성자</th>
+              <th className='col-7 text-center'>제목</th>
+              <th className='col-2 text-center'>작성자</th>
               <th className='col-2 text-center'>작성일</th>
             </tr>
           </thead>
           <tbody>
-            {posts.map((post, i) => {
-              return <Post key={post.id} post={post} i={i}></Post>;
-            })}
+            <PostList></PostList>
           </tbody>
         </Table>
+        <Pagination onPageChange={handlepagechange}></Pagination>
       </div>
     </section>
+  );
+}
+
+function PostList() {
+  const { posts, setPosts, page, setPage, limit, setLimit, order, setOrder, totalPage, setTotalPage } = usePostStore();
+  const { status, data } = useQuery(["getPosts", { page, limit, order }], () => getPosts({ page, limit, order }), {
+    retry: 0,
+    refetchOnWindowFocus: false,
+  });
+  console.log(data)
+
+  useEffect(() => {
+    if (status === "success") {
+      setPosts(data.data);
+      setTotalPage(data.totalPage);
+    }
+  }, [status, data, setPosts, setTotalPage]);
+
+  if (status === "loading")
+    return (
+      <tr>
+        <td colSpan={4} className='text-center'>
+          로딩중...
+        </td>
+      </tr>
+    );
+  if (status === "error")
+    return (
+      <tr>
+        <td colSpan={4} className='text-center'>
+          게시글 조회 실패
+        </td>
+      </tr>
+    );
+
+  return (
+    <>
+      {data.data.map((post, i) => {
+        return <Post key={post.id} post={post} i={i}></Post>;
+      })}
+    </>
   );
 }
 

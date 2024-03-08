@@ -86,15 +86,16 @@ app.post("/login", (req, res) => {
 
 // posts 조회
 app.get("/posts", async (req, res) => {
-  // let page = req.query.page ? req.query.page : 1;
-  // let limit = 5;
-  // let totalPost = await models.Posts.count();
-  // let totalPage = Math.ceil(totalPost / limit);
-  // if (page > totalPage) {
-  //   page = totalPage;
-  // }
+  let page = parseInt(req.query.page);
+  let limit = parseInt(req.query.limit);
+  let order = req.query.order;
+  let totalPost = await models.Post.count();
+  let totalPage = Math.ceil(totalPost / limit);
+  if (page > totalPage) {
+    page = totalPage;
+  }
 
-  // let offset = totalPage == 0 ? 0 : (page - 1) * limit; // row가 없을경우 offset을 0으로 설정 (오류 방지)
+  let offset = totalPage == 0 ? 0 : (page - 1) * limit; // row가 없을경우 offset을 0으로 설정 (오류 방지)
 
   const data = await models.Post.findAll({
     include: [
@@ -103,24 +104,32 @@ app.get("/posts", async (req, res) => {
         attributes: ["nickname"],
       },
     ],
-    order: [["id", "DESC"]],
-    // offset,
-    // limit,
+    order: [["id", order]],
+    offset,
+    limit,
+  });
+  res.send({ data, totalPage });
+});
+
+app.get("/posts/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const data = await models.Post.findOne({
+    include: [
+      {
+        model: models.User,
+        attributes: ["nickname"],
+      },
+    ],
+    where: { id },
   });
   res.send(data);
 });
 
 // post 작성
 app.post("/posts", async (req, res) => {
-  console.log(req.body)
-  await models.Post
-    .create(req.body)
-    .then(() => {
-      res.send('success')
-    })
-    .catch((error) => {
-      res.send('fail')
-    });
+  const row = await models.Post.create(req.body);
+  res.send(row.id.toString());
 });
 
 // app.get("*", (req, res)=>{

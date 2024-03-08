@@ -10,16 +10,24 @@ section{width: 100%; min-width: 320px;}
 /* PostList */
 .list-sec .container{}
 .list-sec .container .title{color:white;}
+.list-sec .container .bar{margin-bottom: -1px;}
 .list-sec .container .bar .writeBtn{padding: 3px 7px; color:white; background-color: #222; border:1px solid #555}
 .list-sec .container .bar .writeBtn:hover{background-color: #444;}
-.list-sec .container .table{border-top:2px solid #555; border-bottom:2px solid #555}
+.list-sec .container .table{border-top:2px solid #555; border-bottom:2px solid #555;table-layout: fixed}
 .list-sec .container .table th,td{background-color: #222 !important; border-bottom:1px solid #555}
+.list-sec .container .table .post-id{cursor: pointer;}
+.list-sec .container .table .post-title{white-space:nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer;}
+.list-sec .container .pagination{ color: white; }
 
 /* PostWrite */
 .write-sec .container{}
 .write-sec .container .title{color: white;}
 .write-sec .container .form .post-title{padding: 5px 12px; background-color: #111; color:white; border:1px solid #444; border-radius: 5px;}
-.write-sec .container .form .post-content{padding: 24px; border-radius: 5px; overflow: hidden; resize: none;}
+.write-sec .container .form .post-content{padding: 24px; border-radius: 5px; overflow: hidden; resize: none; min-height: 500px;}
 .write-sec .container .form .btn-wrapper{}
-.write-sec .container .form .btn-wrapper .submitBtn{padding: 5px 12px; color:white; background-color: #222; border:1px solid #555}
-.write-sec .container .form .btn-wrapper .submitBtn:hover{background-color: #444;}
+.write-sec .container .form .btn-wrapper .btn{padding: 5px 12px; color:white; background-color: #222; border:1px solid #555}
+.write-sec .container .form .btn-wrapper .btn:hover{background-color: #444;}
+
+/* PostView */
+.view-sec .container{color: white;}
+.view-sec .container .post-title{word-break:break-all;}

@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Posts from "./pages/Posts";
 import Header from "./components/Header";
 import PostWrite from "./pages/PostWrite";
+import PostView from "./pages/PostView";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path='/' element={<Home></Home>}></Route>
         <Route path='/posts' element={<Posts></Posts>}></Route>
         <Route path='/posts/write' element={<PostWrite></PostWrite>}></Route>
+        <Route path='/posts/:id' element={<PostView></PostView>}></Route>
       </Routes>
     </>
   );
