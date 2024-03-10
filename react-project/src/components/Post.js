@@ -11,8 +11,8 @@ function Post({ post }) {
 
   return (
     <tr>
-      <td className='col-1 post-id text-center' onClick={()=>handleClick()}>{post.id}</td>
-      <td className='col-7 post-title' onClick={()=>handleClick()}>{post.title}</td>
+      <td className='col-2 post-id text-center' onClick={()=>handleClick()}>{post.id}</td>
+      <td className='col-6 post-title' onClick={()=>handleClick()}>{post.title}</td>
       <td className='col-2 text-center'>{post.User?.nickname}</td>
       <td className='col-2 text-center'>{post.createdAt}</td>
     </tr>

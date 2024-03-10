@@ -5,19 +5,23 @@ body{background-color: #111;}
 section{width: 100%; min-width: 320px;}
 
 .navbar{border-bottom: 1px solid #444}
-.sec .container{max-width: 1000px; margin: 0 auto; padding:24px; background-color: #222; border:1px solid #444; border-top:none}
+.main-container{margin: 0 auto; width: 100%; max-width: 1000px; min-width: 320px; background-color: #222; border:1px solid #444; border-top: none;}
+.sec .container{max-width: 1000px; margin: -1px auto 0; padding:24px;}
+.sec .container .title{color:white; text-align: center;}
+.border-tb{border-top: 1px solid #444; border-bottom: 1px solid #444;}
+.fetch-alert{color:white; padding:48px;}
 
 /* PostList */
 .list-sec .container{}
 .list-sec .container .title{color:white;}
 .list-sec .container .bar{margin-bottom: -1px;}
-.list-sec .container .bar .writeBtn{padding: 3px 7px; color:white; background-color: #222; border:1px solid #555}
-.list-sec .container .bar .writeBtn:hover{background-color: #444;}
-.list-sec .container .table{border-top:2px solid #555; border-bottom:2px solid #555;table-layout: fixed}
-.list-sec .container .table th,td{background-color: #222 !important; border-bottom:1px solid #555}
-.list-sec .container .table .post-id{cursor: pointer;}
-.list-sec .container .table .post-title{white-space:nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer;}
-.list-sec .container .pagination{ color: white; }
+.list-sec .container .bar .btn-wrapper .btns{padding: 3px 7px; color:white; background-color: #222; border:1px solid #555}
+.list-sec .container .bar .btn-wrapper .btns:hover{background-color: #444;}
+.sec .container .table{border-top:2px solid #555; border-bottom:2px solid #555;table-layout: fixed}
+.sec .container .table th,td{background-color: #222 !important; border-bottom:1px solid #555}
+.sec .container .table .post-id{cursor: pointer;}
+.sec .container .table .post-title{white-space:nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer;}
+.sec .container .pagination{ color: white; }
 
 /* PostWrite */
 .write-sec .container{}
@@ -30,4 +34,6 @@ section{width: 100%; min-width: 320px;}
 
 /* PostView */
 .view-sec .container{color: white;}
-.view-sec .container .post-title{word-break:break-all;}
+.view-sec .container .post-wrapper .post-title{padding:7px 12px; background-color: #333;  word-break:break-all; font-size: 18px;}
+.view-sec .container .post-wrapper .post-info{padding:5px 12px; color: #999; border-bottom: 1px solid #444;}
+.view-sec .container .post-wrapper .post-content{padding: 12px; min-height: 200px;}

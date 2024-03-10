@@ -12,12 +12,14 @@ function App() {
   return (
     <>
       <Header></Header>
-      <Routes>
-        <Route path='/' element={<Home></Home>}></Route>
-        <Route path='/posts' element={<Posts></Posts>}></Route>
-        <Route path='/posts/write' element={<PostWrite></PostWrite>}></Route>
-        <Route path='/posts/:id' element={<PostView></PostView>}></Route>
-      </Routes>
+      <div className='main-container'>
+        <Routes>
+          <Route path='/' element={<Home></Home>}></Route>
+          <Route path='/posts' element={<Posts></Posts>}></Route>
+          <Route path='/posts/:id' element={<PostView></PostView>}></Route>
+          <Route path='/posts/write' element={<PostWrite></PostWrite>}></Route>
+        </Routes>
+      </div>
     </>
   );
 }

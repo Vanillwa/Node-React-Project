@@ -4,6 +4,7 @@ const session = require("express-session");
 const passport = require("passport");
 const localStrategy = require("passport-local");
 const models = require("./models");
+const { Sequelize } = require("sequelize");
 const app = express();
 
 app.use(cors());
@@ -105,6 +106,18 @@ app.get("/posts", async (req, res) => {
     limit,
   });
   res.send({ data, totalPage });
+});
+
+//getPostsById
+app.get("/getPostsById", async (req, res) => {
+  let id = req.query.id;
+  console.log("----------------------------id : ", id);
+  let limit = parseInt(req.query.limit);
+  let order = req.query.order;
+  let totalPost = await models.Post.count();
+  let totalPage = Math.ceil(totalPost / limit);
+
+  //작성해야댐
 });
 
 app.get("/posts/:id", async (req, res) => {

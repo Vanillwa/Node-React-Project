@@ -1,9 +1,13 @@
-import { usePostStore } from "../stores/postStore";
-
 function Pagination({ currentPage, totalPage, onPageChange }) {
+  
   let startPage = Math.max(1, currentPage - 2);
   let endPage = Math.min(totalPage, currentPage + 2);
-
+  if(currentPage <= 2){
+    endPage = 5
+  }
+  if(currentPage >= totalPage - 2){
+    startPage = totalPage - 4
+  }
   const pages = [];
   for (let i = startPage; i <= endPage; i++) {
     pages.push(
@@ -13,15 +17,15 @@ function Pagination({ currentPage, totalPage, onPageChange }) {
     );
   }
   return (
-    <div className='pagination d-flex justify-content-center gap-1'>
+    <div className='pagination d-flex justify-content-center gap-2'>
       {!(currentPage === 1) && (
-        <span onClick={() => onPageChange(currentPage - 1)} style={{ cursor: "pointer" }}>
+        <span onClick={() => onPageChange(currentPage - 5)} style={{ cursor: "pointer" }}>
           ◀
         </span>
       )}
       {pages}
       {!(currentPage === totalPage) && (
-        <span onClick={() => onPageChange(currentPage + 1)} style={{ cursor: "pointer" }}>
+        <span onClick={() => onPageChange(currentPage + 5)} style={{ cursor: "pointer" }}>
           ▶
         </span>
       )}
