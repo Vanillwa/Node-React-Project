@@ -15,13 +15,13 @@ function PostView() {
 
   if (status === "loading")
     return (
-      <div colSpan={4} className='text-center'>
+      <div className='text-center'>
         로딩중...
       </div>
     );
   if (status === "error")
     return (
-      <div colSpan={4} className='text-center'>
+      <div className='text-center'>
         게시글 조회 실패
       </div>
     );

@@ -1,9 +1,7 @@
 import { usePostStore } from "../stores/postStore";
 
-function Pagination({ onPageChange }) {
-  const { page: currentPage, totalPage } = usePostStore();
-
-	let startPage = Math.max(1, currentPage - 2);
+function Pagination({ currentPage, totalPage, onPageChange }) {
+  let startPage = Math.max(1, currentPage - 2);
   let endPage = Math.min(totalPage, currentPage + 2);
 
   const pages = [];

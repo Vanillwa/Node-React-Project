@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getPosts } from "../api/api";
 import { usePostStore } from "../stores/postStore";
 import { Table } from "react-bootstrap";
@@ -8,15 +8,22 @@ import { useQuery } from "react-query";
 import Pagination from "../components/Pagination";
 
 function Posts() {
+  console.log("Posts rendered");
   const navigate = useNavigate();
-  const { page, setPage, setOrder, totalPage } = usePostStore();
-  const handlepagechange = (newPage) => {
+  // const [page, setPage] = useState(1);
+  const { page, setPage } = usePostStore();
+  const { status, data } = useQuery(["getPosts", { page }], () => getPosts({ page }), {
+    retry: 0,
+    refetchOnWindowFocus: false,
+  });
+
+  const handlePageChange = (newPage) => {
     setPage(newPage);
   };
 
-  const handleOrderChange = (newOrder) => {
-    setOrder(newOrder);
-  };
+  // const handleOrderChange = (newOrder) => {
+  //   setOrder(newOrder);
+  // };
 
   return (
     <section className='sec list-sec'>
@@ -43,31 +50,17 @@ function Posts() {
             </tr>
           </thead>
           <tbody>
-            <PostList></PostList>
+            <PostList status={status} posts={data?.data}></PostList>
           </tbody>
         </Table>
-        <Pagination onPageChange={handlepagechange}></Pagination>
+        <Pagination currentPage={page} totalPage={data?.totalPage} onPageChange={handlePageChange}></Pagination>
       </div>
     </section>
   );
 }
 
-function PostList() {
-  const { posts, setPosts, page, setPage, limit, setLimit, order, setOrder, totalPage, setTotalPage } = usePostStore();
-  const { status, data } = useQuery(["getPosts", { page, limit, order }], () => getPosts({ page, limit, order }), {
-    retry: 0,
-    refetchOnWindowFocus: false,
-  });
-  console.log(data)
-
-  useEffect(() => {
-    if (status === "success") {
-      setPosts(data.data);
-      setTotalPage(data.totalPage);
-    }
-  }, [status, data, setPosts, setTotalPage]);
-
-  if (status === "loading")
+function PostList({ status, posts }) {
+  if (status == "loading") {
     return (
       <tr>
         <td colSpan={4} className='text-center'>
@@ -75,7 +68,9 @@ function PostList() {
         </td>
       </tr>
     );
-  if (status === "error")
+  }
+
+  if (status == "error") {
     return (
       <tr>
         <td colSpan={4} className='text-center'>
@@ -83,10 +78,11 @@ function PostList() {
         </td>
       </tr>
     );
+  }
 
   return (
     <>
-      {data.data.map((post, i) => {
+      {posts.map((post, i) => {
         return <Post key={post.id} post={post} i={i}></Post>;
       })}
     </>

@@ -66,10 +66,6 @@ app.listen(8081, () => {
   console.log("server on http://localhost:8081/");
 });
 
-// app.get("/", (req, res) => {
-//   res.sendFile('index.html');
-// });
-
 // 로그인
 app.post("/login", (req, res) => {
   passport.authenticate("local", (error, user, info) => {
