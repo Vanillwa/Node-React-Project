@@ -1,22 +1,20 @@
-import { useQueries } from "react-query";
+import { useQueries, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { getPost, getPostsById } from "../api/api";
+import { getPost } from "../api/api";
 import PostTable from "../components/PostTable";
 import { usePostStore } from "../stores/postStore";
 
 function PostView() {
   console.log("View Rendered");
   const { id } = useParams();
-  const { posts } = usePostStore();
-  const { status, data } = useQueries([
-    {queryKey : ['getPost', id], queryFn : getPost(id)},
-    {queryKey : ['getPostsById', id], queryFn : getPostsById({id}) } // 작성해야댐
-  ]
-  );
-  //   ["getPost", id], async () => await getPost(id), {
-  //   retry: 0,
-  //   refetchOnWindowFocus: false,
-  // });
+  const { post, setPost } = usePostStore();
+  const { status, data } = useQuery(["getPost", {id}], ()=> getPost({id}),{
+    retry: 0,
+    refetchOnWindowFocus: false,
+    onSuccess : (data)=>{
+      setPost(data)
+    }
+  })
 
   if (status === "success") {
     console.log("view data : ", data);
@@ -38,7 +36,6 @@ function PostView() {
           <div className='post-content'>{data.content}</div>
         </div>
         <hr></hr>
-        <PostTable posts={posts}></PostTable>
       </div>
     </section>
   );

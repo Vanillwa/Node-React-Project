@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const cors = require("cors");
 const session = require("express-session");
 const passport = require("passport");
@@ -67,6 +68,10 @@ app.listen(8081, () => {
   console.log("server on http://localhost:8081/");
 });
 
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "/public/index.html"));
+});
+
 // 로그인
 app.post("/login", (req, res) => {
   passport.authenticate("local", (error, user, info) => {
@@ -120,20 +125,20 @@ app.get("/getPostsById", async (req, res) => {
   //작성해야댐
 });
 
-app.get("/posts/:id", async (req, res) => {
-  const { id } = req.params;
+// app.get("/posts/:id", async (req, res) => {
+//   const { id } = req.params;
 
-  const data = await models.Post.findOne({
-    include: [
-      {
-        model: models.User,
-        attributes: ["nickname"],
-      },
-    ],
-    where: { id },
-  });
-  res.send(data);
-});
+//   const data = await models.Post.findOne({
+//     include: [
+//       {
+//         model: models.User,
+//         attributes: ["nickname"],
+//       },
+//     ],
+//     where: { id },
+//   });
+//   res.send(data);
+// });
 
 // post 작성
 app.post("/posts", async (req, res) => {
@@ -141,6 +146,6 @@ app.post("/posts", async (req, res) => {
   res.send(row.id.toString());
 });
 
-// app.get("*", (req, res)=>{
-//   res.sendFile('index.html');
-// })
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "/public/index.html"));
+});

@@ -20,18 +20,10 @@ function Posts() {
     console.log(data);
   }
   if (status === "loading") {
-    return (
-      <div className='fetch-alert text-center'>
-        로딩중...
-      </div>
-    );
+    return <div className='fetch-alert text-center'>로딩중...</div>;
   }
   if (status === "error") {
-    return (
-      <div className='fetch-alert text-center'>
-        게시글 조회 실패
-      </div>
-    );
+    return <div className='fetch-alert text-center'>게시글 조회 실패</div>;
   }
 
   const handlePageChange = (newPage) => {
