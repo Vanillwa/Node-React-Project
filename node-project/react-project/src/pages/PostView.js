@@ -1,7 +1,6 @@
-import { useQueries, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { getPost } from "../api/api";
-import PostTable from "../components/PostTable";
 import { usePostStore } from "../stores/postStore";
 
 function PostView() {
@@ -25,15 +24,14 @@ function PostView() {
   return (
     <section className='sec view-sec'>
       <div className='container'>
-        {/* <h2 className='title'>글 조회</h2> */}
         <hr></hr>
         <div className='post-wrapper'>
-          <div className='post-title border-tb'>{data.title}</div>
+          <div className='post-title border-tb'>{post.title}</div>
           <div className='post-info d-flex justify-content-between'>
-            <span>작성자 : {data.User.nickname}</span>
-            <span>작성일 : {data.createdAt}</span>
+            <span>작성자 : {post.User.nickname}</span>
+            <span>작성일 : {post.createdAt}</span>
           </div>
-          <div className='post-content'>{data.content}</div>
+          <div className='post-content'>{post.content}</div>
         </div>
         <hr></hr>
       </div>

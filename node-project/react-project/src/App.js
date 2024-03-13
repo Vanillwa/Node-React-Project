@@ -13,7 +13,7 @@ function App() {
     <>
       <Header></Header>
       <div className='main-container'>
-        <Routes>
+        <Routes basename={process.env.PUBLIC_URL}>
           <Route path='/' element={<Home></Home>}></Route>
           <Route path='/posts' element={<Posts></Posts>}></Route>
           <Route path='/posts/:id' element={<PostView></PostView>}></Route>

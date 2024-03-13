@@ -19,12 +19,6 @@ function Posts() {
   if (status === "success") {
     console.log(data);
   }
-  if (status === "loading") {
-    return <div className='fetch-alert text-center'>로딩중...</div>;
-  }
-  if (status === "error") {
-    return <div className='fetch-alert text-center'>게시글 조회 실패</div>;
-  }
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
@@ -61,7 +55,7 @@ function Posts() {
               </button>
             </div>
           </div>
-          <PostTable posts={posts}></PostTable>
+          <PostTable posts={posts} status={status}></PostTable>
           <Pagination currentPage={page} totalPage={data?.totalPage} onPageChange={handlePageChange}></Pagination>
         </div>
       </section>

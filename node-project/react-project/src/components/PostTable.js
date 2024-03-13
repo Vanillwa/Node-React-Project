@@ -13,7 +13,7 @@ function PostTable({status, posts}) {
         </tr>
       </thead>
       <tbody>
-        <PostList posts={posts}></PostList>
+        <PostList posts={posts} status={status}></PostList>
       </tbody>
     </Table>
   );

@@ -69,7 +69,7 @@ app.listen(8081, () => {
 });
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "/public/index.html"));
+  res.sendFile(path.join(__dirname, "/react-project/build/index.html"));
 });
 
 // 로그인
@@ -87,7 +87,7 @@ app.post("/login", (req, res) => {
 });
 
 // posts 조회
-app.get("/posts", async (req, res) => {
+app.get("/getPosts", async (req, res) => {
   let page = parseInt(req.query.page);
   let limit = parseInt(req.query.limit);
   let order = req.query.order;
@@ -113,32 +113,33 @@ app.get("/posts", async (req, res) => {
   res.send({ data, totalPage });
 });
 
-//getPostsById
-app.get("/getPostsById", async (req, res) => {
-  let id = req.query.id;
-  console.log("----------------------------id : ", id);
-  let limit = parseInt(req.query.limit);
-  let order = req.query.order;
-  let totalPost = await models.Post.count();
-  let totalPage = Math.ceil(totalPost / limit);
+// getPostsById 
+// app.get("/getPostsById", async (req, res) => {
+//   let id = req.query.id;
+//   console.log("----------------------------id : ", id);
+//   let limit = parseInt(req.query.limit);
+//   let order = req.query.order;
+//   let totalPost = await models.Post.count();
+//   let totalPage = Math.ceil(totalPost / limit);
 
-  //작성해야댐
-});
-
-// app.get("/posts/:id", async (req, res) => {
-//   const { id } = req.params;
-
-//   const data = await models.Post.findOne({
-//     include: [
-//       {
-//         model: models.User,
-//         attributes: ["nickname"],
-//       },
-//     ],
-//     where: { id },
-//   });
-//   res.send(data);
+//   //작성해야댐
 // });
+
+// getPost 단일조회
+app.get("/getPost/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const data = await models.Post.findOne({
+    include: [
+      {
+        model: models.User,
+        attributes: ["nickname"],
+      },
+    ],
+    where: { id },
+  });
+  res.send(data);
+});
 
 // post 작성
 app.post("/posts", async (req, res) => {
@@ -147,5 +148,5 @@ app.post("/posts", async (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "/public/index.html"));
+  res.sendFile(path.join(__dirname, "/react-project/build/index.html"));
 });
