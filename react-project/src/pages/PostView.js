@@ -1,23 +1,36 @@
-import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
-import { getPost } from "../api/api";
-import { usePostStore } from "../stores/postStore";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
+import { deletePost, getPost } from "../services/api";
 
 function PostView() {
   console.log("View Rendered");
   const { id } = useParams();
-  const { post, setPost } = usePostStore();
-  const { status, data } = useQuery(["getPost", {id}], ()=> getPost({id}),{
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  // post 조회
+  const { status, data } = useQuery(["getPost", { id }], () => getPost({ id }), {
     retry: 0,
     refetchOnWindowFocus: false,
-    onSuccess : (data)=>{
-      setPost(data)
-    }
-  })
+  });
 
-  if (status === "success") {
-    console.log("view data : ", data);
-  }
+  // post 삭제 mutation
+  const { mutate } = useMutation((id) => deletePost(id), {
+    onSettled : ()=>{
+      queryClient.resetQueries("getPosts");
+    },
+    onSuccess: () => {
+      navigate("/posts");
+    },
+  });
+
+  // post 삭제 핸들러
+  const handleDeletePost = () => {
+    if (!window.confirm("정말 게시글을 지우시겠습니까?")) return;
+    mutate(id);
+  };
+
+  if (status === "success") console.log("view data : ", data);
   if (status === "loading") return <div className='text-center'>로딩중...</div>;
   if (status === "error") return <div className='text-center'>게시글 조회 실패</div>;
 
@@ -26,14 +39,21 @@ function PostView() {
       <div className='container'>
         <hr></hr>
         <div className='post-wrapper'>
-          <div className='post-title border-tb'>{post.title}</div>
+          <div className='post-title border-tb'>{data.title}</div>
           <div className='post-info d-flex justify-content-between'>
-            <span>작성자 : {post.User.nickname}</span>
-            <span>작성일 : {post.createdAt}</span>
+            <span>작성자 : {data.User.nickname}</span>
+            <span>작성일 : {data.createdAt}</span>
           </div>
-          <div className='post-content'>{post.content}</div>
+          <div className='post-content'>{data.content}</div>
         </div>
-        <hr></hr>
+        <div className='btn-wrapper justify-content-end gap-2'>
+          <button type='button' className='btns'>
+            수정
+          </button>
+          <button type='button' className='btns' onClick={handleDeletePost}>
+            삭제
+          </button>
+        </div>
       </div>
     </section>
   );

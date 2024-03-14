@@ -1,9 +1,11 @@
+import styles from "../styles/Home.module.css";
+
 function Home() {
-  console.log(process.env.REACT_APP_API_URL)
   return (
-    <>
-      <h2 style={{color:'white'}}>Home</h2>
-    </>
+    <section className={styles.section}>
+      <p>이것은 리액트로 만든 사이트 이다.</p>
+      <p>페이지네이션이 아직 불안정 하다.</p>
+    </section>
   );
 }
 

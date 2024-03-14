@@ -1,4 +1,4 @@
-import { getPosts } from "../api/api";
+import { getPosts } from "../services/api";
 import { usePostStore } from "../stores/postStore";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
@@ -8,25 +8,25 @@ import PostTable from "../components/PostTable";
 function Posts() {
   console.log("Posts rendered");
   const navigate = useNavigate();
-  const { page, setPage, posts, setPosts } = usePostStore();
+  const { page, setPage } = usePostStore();
+  
+  // post list 조회
   const { status, data } = useQuery(["getPosts", { page }], () => getPosts({ page }), {
     retry: 0,
     refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      setPosts(data.data);
-    },
   });
-  if (status === "success") {
-    console.log(posts);
-  }
 
+  // 페이지 이동시 page state 변경
   const handlePageChange = (newPage) => {
     setPage(newPage);
   };
 
+  // 게시판 정렬 방식 변경
   // const handleOrderChange = (newOrder) => {
   //   setOrder(newOrder);
   // };
+
+  if (status === "success") console.log(data.data);
 
   return (
     <>
@@ -36,26 +36,15 @@ function Posts() {
           <div className='bar d-flex justify-content-end'>
             <div className='filter'></div>
             <div className='btn-wrapper'>
-              {}
-              <button
-                type='button'
-                className='btns listBtn'
-                onClick={() => {
-                  navigate("/posts");
-                }}>
+              <button type='button' className='btns listBtn' onClick={() => navigate("/posts")}>
                 목록으로
               </button>
-              <button
-                type='button'
-                className='btns writeBtn'
-                onClick={() => {
-                  navigate("/posts/write");
-                }}>
+              <button type='button' className='btns writeBtn' onClick={() => navigate("/posts/write")}>
                 글쓰기
               </button>
             </div>
           </div>
-          <PostTable posts={posts} status={status}></PostTable>
+          <PostTable posts={data?.data} status={status}></PostTable>
           <Pagination currentPage={page} totalPage={data?.totalPage} onPageChange={handlePageChange}></Pagination>
         </div>
       </section>

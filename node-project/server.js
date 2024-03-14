@@ -148,7 +148,17 @@ app.get("/api/posts/:id", async (req, res) => {
 // post 작성
 app.post("/api/posts", async (req, res) => {
   const row = await models.Post.create(req.body);
+  console.log(row.id)
   res.send(row.id.toString());
+});
+
+// post 삭제
+app.delete("/api/posts/:id", async (req, res) => {
+  const { id } = req.params;
+  const data = await models.Post.destroy({
+    where: { id },
+  });
+  res.send(data.toString())
 });
 
 app.get("*", (req, res) => {
