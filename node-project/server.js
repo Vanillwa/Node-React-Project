@@ -8,7 +8,11 @@ const models = require("./models");
 const { Sequelize } = require("sequelize");
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(express.static(__dirname + "/public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -69,11 +73,11 @@ app.listen(8081, () => {
 });
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "/react-project/build/index.html"));
+  res.sendFile(path.join(__dirname, "/public/index.html"));
 });
 
 // 로그인
-app.post("/login", (req, res) => {
+app.post("/api/login", (req, res) => {
   passport.authenticate("local", (error, user, info) => {
     if (error) return res.status(500).json(error);
 
@@ -87,7 +91,7 @@ app.post("/login", (req, res) => {
 });
 
 // posts 조회
-app.get("/getPosts", async (req, res) => {
+app.get("/api/posts", async (req, res) => {
   let page = parseInt(req.query.page);
   let limit = parseInt(req.query.limit);
   let order = req.query.order;
@@ -113,7 +117,7 @@ app.get("/getPosts", async (req, res) => {
   res.send({ data, totalPage });
 });
 
-// getPostsById 
+// getPostsById
 // app.get("/getPostsById", async (req, res) => {
 //   let id = req.query.id;
 //   console.log("----------------------------id : ", id);
@@ -126,7 +130,7 @@ app.get("/getPosts", async (req, res) => {
 // });
 
 // getPost 단일조회
-app.get("/getPost/:id", async (req, res) => {
+app.get("/api/posts/:id", async (req, res) => {
   const { id } = req.params;
 
   const data = await models.Post.findOne({
@@ -142,11 +146,11 @@ app.get("/getPost/:id", async (req, res) => {
 });
 
 // post 작성
-app.post("/posts", async (req, res) => {
+app.post("/api/posts", async (req, res) => {
   const row = await models.Post.create(req.body);
   res.send(row.id.toString());
 });
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "/react-project/build/index.html"));
+  res.sendFile(path.join(__dirname, "/public/index.html"));
 });

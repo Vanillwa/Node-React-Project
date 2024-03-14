@@ -17,7 +17,7 @@ function Posts() {
     },
   });
   if (status === "success") {
-    console.log(data);
+    console.log(posts);
   }
 
   const handlePageChange = (newPage) => {
