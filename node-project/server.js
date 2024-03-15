@@ -129,7 +129,7 @@ app.get("/api/posts", async (req, res) => {
 //   //작성해야댐
 // });
 
-// getPost 단일조회
+// post 단일조회
 app.get("/api/posts/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -160,6 +160,7 @@ app.delete("/api/posts/:id", async (req, res) => {
   res.send(data.toString());
 });
 
+// post 업데이트
 app.put("/api/posts/:id", async (req, res) => {
   const { id } = req.params;
   const data = await models.Post.update(req.body, { where: { id } });

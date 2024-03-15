@@ -1,42 +1,67 @@
-*{margin: 0; padding: 0; box-sizing: border-box;}
-ul, ol, li{list-style: none;}
-a{text-decoration: none;}
-body{background-color: #111;}
-section{width: 100%; min-width: 320px;}
+#root{ position: relative;}
+body[class='light']{
+  --bg-body : white;
+  --bg-mc : whitesmoke;
+  --bg-row : whitesmoke;
+  --bg-btn : whitesmoke;
+  --bg-btn-hover : lightgray;
+  --text1 : darkslategray;
+  --border : lightgray;
+  --bd-table : lightgray;
+  --bd-btn : lightgray;
+}
+body[class='dark']{
+  --bg-body : #111;
+  --bg-mc : #222;
+  --bg-row : #222;
+  --bg-btn : #222;
+  --bg-btn-hover : #444;
+  --text1 : whitesmoke;
+  --border : #444;
+  --bd-table : #555;
+  --bd-btn : #555;
+}
 
-.navbar{border-bottom: 1px solid #444}
-.main-container{margin: 0 auto 50px; width: 100%; max-width: 1000px; min-width: 320px; background-color: #222; border:1px solid #444; border-top: none;}
-.sec .container{max-width: 1000px; margin: -1px auto 0; padding:24px;}
-.sec .container .title{color:white; text-align: center;}
-.border-tb{border-top: 1px solid #444; border-bottom: 1px solid #444;}
-.fetch-alert{color:white; padding:48px;}
+* { margin: 0; padding: 0; box-sizing: border-box; transition: background-color .3s, border-color .3s; } 
+ul, ol, li { list-style: none; } 
+a { text-decoration: none; } 
+body { background-color: var(--bg-body); height: 100%;} 
+
+.preload *{transition: none !important;}
+.navbar {position: fixed; width: 100%; border-bottom: 1px solid var(--border); z-index: 999;} 
+.theme {color: var(--text1); font-size: 24px; line-height: 1.2;}
+.main-container { margin:0 auto; padding: 57px 0 0; width: 100%; max-width: 1000px; min-width: 320px; height: 100%; background-color: var(--bg-mc); border:1px solid var(--border); border-top: none; } 
+.sec .container {margin: -1px auto; padding:24px; height: 100%; } 
+.fetch-alert { color:white; padding:48px; } 
+
+/* Home */
+.home{color: var(--text1); text-align: center; padding: 24px;}
 
 /* PostList */
-.list-sec .container{}
-.list-sec .container .title{color:white;}
-.list-sec .container .bar{margin-bottom: -1px;}
-.list-sec .container .bar .btn-wrapper .btns{padding: 3px 7px; color:white; background-color: #222; border:1px solid #555}
-.list-sec .container .bar .btn-wrapper .btns:hover{background-color: #444;}
-.sec .container .table{border-top:2px solid #555; border-bottom:2px solid #555;table-layout: fixed}
-.sec .container .table th,td{background-color: #222 !important; border-bottom:1px solid #555}
-.sec .container .table .post-id{cursor: pointer;}
-.sec .container .table .post-title{white-space:nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer;}
-.sec .container .pagination{ color: white; }
+.list-sec .container { } 
+.list-sec .container .bar { margin-bottom: -1px; } 
+.list-sec .container .bar .btn-wrapper .btns { padding: 3px 7px; color: var(--text1); background-color: var(--bg-btn); border:1px solid var(--bd-btn) } 
+.list-sec .container .bar .btn-wrapper .btns:hover { background-color: var(--bg-btn-hover);} 
+.sec .container .table { border-top:2px solid var(--bd-table); border-bottom:2px solid var(--bd-table); table-layout: fixed } 
+.sec .container .table th,td { background-color: var(--bg-row) !important; border-bottom:1px solid var(--bd-table); color: var(--text1) !important} 
+.sec .container .table .post-id { cursor: pointer; } 
+.sec .container .table .post-title { white-space:nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; } 
+.sec .container .pagination { color: var(--text1); } 
 
 /* PostWrite */
-.write-sec .container{}
-.write-sec .container .title{color: white;}
-.write-sec .container .form .post-title{padding: 5px 12px; background-color: #111; color:white; border:1px solid #444; border-radius: 5px;}
-.write-sec .container .form .post-content{padding: 24px; border-radius: 5px; resize: none; min-height: 500px;}
-.write-sec .container .form .btn-wrapper{}
-.write-sec .container .form .btn-wrapper .btns{padding: 5px 12px; color:white; background-color: #222; border:1px solid #555}
-.write-sec .container .form .btn-wrapper .btns:hover{background-color: #444;}
+.write-sec .container { } 
+.write-sec .container .form .post-title { padding: 5px 12px; background-color: #111; color:white; border:1px solid #444; border-radius: 5px; } 
+.write-sec .container .form .post-content { padding: 24px; border-radius: 5px; resize: none; min-height: 500px; } 
+.write-sec .container .form .btn-wrapper { } 
+.write-sec .container .form .btn-wrapper .btns { padding: 5px 12px; color:white; background-color: #222; border:1px solid #555 } 
+.write-sec .container .form .btn-wrapper .btns:hover { background-color: #444; } 
 
 /* PostView */
-.view-sec .container{color: white;}
-.view-sec .container .post-wrapper .post-title{padding:7px 12px; background-color: #333;  word-break:break-all; font-size: 18px;}
-.view-sec .container .post-wrapper .post-info{padding:5px 12px; color: #999; border-bottom: 1px solid #555;}
-.view-sec .container .post-wrapper .post-content{padding: 12px; min-height: 200px; border-bottom: 1px solid #555;}
-.view-sec .container .btn-wrapper{display: flex; justify-content: flex-end; padding: 7px 12px; border-bottom: 1px solid #555;}
-.view-sec .container .btn-wrapper .btns{padding: 5px 12px; color:white; background-color: #222; border:1px solid #555}
-.view-sec .container .btn-wrapper .btns:hover{background-color: #444;}
+.view-sec .container { color: white; } 
+.view-sec .container .post-wrapper .post-title { padding:7px 12px; background-color: #333; word-break:break-all; font-size: 18px; } 
+.view-sec .container .post-wrapper .post-info { padding:5px 12px; color: #999; border-bottom: 1px solid #555; } 
+.view-sec .container .post-wrapper .post-content { padding: 12px; min-height: 200px; border-bottom: 1px solid #555; } 
+.view-sec .container .btn-wrapper { display: flex; justify-content: flex-end; padding: 7px 12px; border-bottom: 1px solid #555; } 
+.view-sec .container .btn-wrapper .btns { padding: 5px 12px; color:white; background-color: #222; border:1px solid #555 } 
+.view-sec .container .btn-wrapper .btns:hover { background-color: #444; } 
+

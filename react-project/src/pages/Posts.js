@@ -1,15 +1,16 @@
 import { getPosts } from "../services/api";
 import { usePostStore } from "../stores/postStore";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import Pagination from "../components/Pagination";
 import PostTable from "../components/PostTable";
 
 function Posts() {
   console.log("Posts rendered");
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { page, setPage } = usePostStore();
-  
+
   // post list 조회
   const { status, data } = useQuery(["getPosts", { page }], () => getPosts({ page }), {
     retry: 0,
@@ -26,7 +27,10 @@ function Posts() {
   //   setOrder(newOrder);
   // };
 
-  if (status === "success") console.log(data.data);
+  const handleRecentClick = () => {
+    queryClient.resetQueries("getPosts");
+    setPage(1);
+  };
 
   return (
     <>
@@ -36,8 +40,8 @@ function Posts() {
           <div className='bar d-flex justify-content-end'>
             <div className='filter'></div>
             <div className='btn-wrapper'>
-              <button type='button' className='btns listBtn' onClick={() => navigate("/posts")}>
-                목록으로
+              <button type='button' className='btns listBtn' onClick={handleRecentClick}>
+                최신글
               </button>
               <button type='button' className='btns writeBtn' onClick={() => navigate("/posts/write")}>
                 글쓰기

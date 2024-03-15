@@ -38,9 +38,8 @@ function PostView() {
     navigate(`/posts/${id}/update`);
   };
 
-  if (status === "success") console.log("view data : ", data);
-  if (status === "loading") return <div className='text-center'>로딩중...</div>;
-  if (status === "error") return <div className='text-center'>게시글 조회 실패</div>;
+  if (status === "loading") return <div className='fetch-alert text-center'>로딩중...</div>;
+  if (status === "error") return <div className='fetch-alert text-center'>게시글 조회 실패</div>;
 
   return (
     <section className='sec view-sec'>
