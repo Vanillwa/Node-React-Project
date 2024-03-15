@@ -40,3 +40,10 @@ export async function deletePost(id) {
   const data = res.data;
   return data;
 }
+
+// post 업데이트
+export async function putPost(body){
+  const res = await instance.put(`/api/posts/${body.id}`, body);
+  const data = res.data;
+  return data;
+}

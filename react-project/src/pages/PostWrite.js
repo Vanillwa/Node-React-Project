@@ -1,16 +1,15 @@
-import { useRef } from "react";
 import { postPost } from "../services/api";
 import { useUserStore } from "../stores/userStore";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "react-query";
 import { usePostStore } from "../stores/postStore";
+import TextareaAutosize from 'react-textarea-autosize';
 
 function PostWrite() {
   const { user } = useUserStore();
   const { setPage } = usePostStore();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const textarea = useRef();
 
   // post 작성 mutation
   const { mutate } = useMutation((body) => postPost(body), {
@@ -39,19 +38,13 @@ function PostWrite() {
     navigate(-1);
   };
 
-  // textarea 크기 자동 조절
-  const handleResizeTextArea = (e) => {
-    textarea.current.style.height = "auto"; //height 초기화
-    textarea.current.style.height = textarea.current.scrollHeight + "px";
-  };
-
   return (
     <section className='sec write-sec'>
       <div className='container'>
         <h2 className='title text-center'>글쓰기</h2>
         <form className='form d-flex flex-column gap-2' onSubmit={handleSubmit}>
           <input type='text' name='title' className='post-title' placeholder='제목' required></input>
-          <textarea name='content' className='post-content' cols={1} rows={1} placeholder='- 내용 -' onChange={handleResizeTextArea} ref={textarea} required></textarea>
+          <TextareaAutosize name='content' className='post-content' placeholder='- 내용 -' required></TextareaAutosize>
           <div className='btn-wrapper d-flex justify-content-end gap-2'>
             <button type='button' className='btns cancleBtn' onClick={handleCancle}>
               취소
